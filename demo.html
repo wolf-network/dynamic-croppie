@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/css/croppie.css">
+	<title>Croppie Dynamic</title>
+
+</head>
+<body>
+	<input type="hidden" name="ExhibitionLogoPathBase64" id="ExhibitionLogoPathBase64">
+    <input type="file" name="ExhibitionLogoPath" class="img_crop" data-img_prev_selector="#ExhibitionLogoImg" data-img_width="400" data-img_height="400" data-img_type="square" data-boundary_width="450" data-boundary_height="450">
+    <div id="ExhibitionLogoImg"></div> <br>
+    <button type="submit">Submit</button>
+
+    <script src="assets/js/jquery-3.6.0.js"></script>
+    <script src="assets/js/croppie.js"></script>
+    <script>
+    	$(document).on('change','.img_crop', function () {
+		    var image_preview =  $(this).attr('data-img_prev_selector');
+		    var img_width = ($(this).attr('data-img_width') != '' && $(this).attr('data-img_width') != undefined)?parseInt($(this).attr('data-img_width')):400;
+		    var img_height = ($(this).attr('data-img_height') != '' && $(this).attr('data-img_height') != undefined)?parseInt($(this).attr('data-img_height')):400;
+		    var img_type = ($(this).attr('data-img_type') != '' && $(this).attr('data-img_type') != undefined)?$(this).attr('data-img_type'):'square';
+
+		    var boundary_width = ($(this).attr('data-boundary_width') != '' && $(this).attr('data-boundary_width') != undefined)?parseInt($(this).attr('data-boundary_width')):450;
+		    var boundary_height = ($(this).attr('data-boundary_height') != '' && $(this).attr('data-boundary_height') != undefined)?$(this).attr('data-boundary_height'):450;
+
+		    $(image_preview).croppie('destroy');
+		    
+		    $image_crop = $(image_preview).croppie({
+		        enableExif: true,
+		        viewport: {
+		            width: img_width,
+		            height: img_height,
+		            type: img_type
+		        },
+		        boundary: {
+		            width: boundary_width,
+		            height: boundary_height
+		        }
+		    });
+
+		    var reader = new FileReader();
+		    reader.onload = function (e) {
+		        $image_crop.croppie('bind', {
+		            url: e.target.result
+		        }).then(function(){
+		            console.log('jQuery bind complete');
+		        });
+
+		        $('button').each(function(){
+		            if($(this).attr('type') == 'submit' || $(this).attr('type') == undefined){
+		                $(this).addClass('submit-form-btn').attr('type','button');
+		            }
+		        });
+
+		        $(document).on('click','.submit-form-btn', function(){
+		            $image_crop.croppie('result', {
+		                type: 'canvas',
+		                size: 'viewport'
+		            }).then(function (response) {
+		                $('#ExhibitionLogoPathBase64').val(response);
+		            });
+
+		            $(this).html('saving...').attr({'type':'submit','disabled': true}).trigger('click');
+		        });
+		    }
+		    reader.readAsDataURL(this.files[0]);
+		});
+    </script>
+</body>
+</html>
