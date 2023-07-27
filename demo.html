@@ -18,6 +18,7 @@
     <script>
     	$(document).on('change','.img_crop', function () {
 		    var image_preview =  $(this).attr('data-img_prev_selector');
+		    var base64_input_selector = $(this).attr('data-base64_input_selector');
 		    var img_width = ($(this).attr('data-img_width') != '' && $(this).attr('data-img_width') != undefined)?parseInt($(this).attr('data-img_width')):400;
 		    var img_height = ($(this).attr('data-img_height') != '' && $(this).attr('data-img_height') != undefined)?parseInt($(this).attr('data-img_height')):400;
 		    var img_type = ($(this).attr('data-img_type') != '' && $(this).attr('data-img_type') != undefined)?$(this).attr('data-img_type'):'square';
@@ -59,7 +60,7 @@
 		                type: 'canvas',
 		                size: 'viewport'
 		            }).then(function (response) {
-		                $('#ExhibitionLogoPathBase64').val(response);
+		                $(base64_input_selector).val(response);
 		            });
 
 		            $(this).html('saving...').attr({'type':'submit'});
