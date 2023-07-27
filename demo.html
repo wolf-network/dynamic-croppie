@@ -62,7 +62,7 @@
 		                $('#ExhibitionLogoPathBase64').val(response);
 		            });
 
-		            $(this).html('saving...').attr({'type':'submit','disabled': true}).trigger('click');
+		            $(this).html('saving...').attr({'type':'submit'});
 		        });
 		    }
 		    reader.readAsDataURL(this.files[0]);
