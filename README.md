@@ -16,6 +16,7 @@ Before using Dynamic Croppie, make sure you have the following prerequisites:
 2. Add the necessary HTML code to your web page. Customize the cropping behavior (optional) by modifying the data attributes of the file input (`<input type="file" ...>`):
 
     - `data-img_prev_selector`: Specifies the selector of the container where the cropped image preview will be displayed.
+    - `data-base64_input_selector`: Specifies the selector of the input where the cropped image base64 will be stored for submission.
     - `data-img_width` and `data-img_height`: Set the width and height (in pixels) of the cropped image.
     - `data-img_type`: Specifies the cropping shape ("square" in this example, but you can use "circle" or "rectangle" as well).
     - `data-boundary_width` and `data-boundary_height`: Set the width and height (in pixels) of the cropping boundary.
